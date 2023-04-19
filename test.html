@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Constructor-Calc</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="component-wrapper">
+        <div class="block-shadow display">
+          <input type="text" value="0" />
+        </div>
+        <div class="block-shadow operators grid">
+          <button class="btn">/</button>
+          <button class="btn">X</button>
+          <button class="btn">-</button>
+          <button class="btn">+</button>
+        </div>
+        <div class="block-shadow digits grid">
+          <button class="btn">1</button>
+          <button class="btn">2</button>
+          <button class="btn">3</button>
+          <button class="btn">4</button>
+          <button class="btn">5</button>
+          <button class="btn">6</button>
+          <button class="btn">7</button>
+          <button class="btn">8</button>
+          <button class="btn">9</button>
+          <button class="btn">0</button>
+          <button class="btn">,</button>
+        </div>
+        <div class="block-shadow equally">
+          <button class="btn btn--equally">=</button>
+        </div>
+      </div>
+      <div class="component-wrapper component-wrapper--drop">
+        <div class="switch">
+          <div class="selector">
+            <svg class="icon">
+              <use xlink:href="public/sprite.svg#eye"></use>
+            </svg>
+            Runtime
+          </div>
+          <div class="selector selector--active">
+            <svg class="icon">
+              <use xlink:href="public/sprite.svg#selector"></use></svg
+            >Constructor
+          </div>
+        </div>
+        <div class="area-drop">
+          <div class="text">
+            <img src="./public/drop.svg" alt="" />
+            <h3>Перетащите сюда</h3>
+            <p>
+              любой элемент<br />
+              из левой панели
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
