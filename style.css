@@ -60,18 +60,15 @@ body {
   border-radius: 6px;
   padding: 1px;
 }
-/*.highlight-line::after {*/
-/*  content: "";*/
-/*  display: block;*/
-/*  width: 100%;*/
-/*  margin-top: 10px;*/
-/*  border-bottom: 4px solid darkblue;*/
-/*}*/
-
 .drop-area {
+  position: relative;
   height: 448px;
+  z-index: 1;
 }
 .text-wrapper {
+  position: absolute;
+  width: inherit;
+  top: 108px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,6 +101,8 @@ p {
 .display input {
   text-align: right;
   font-size: 36px;
+  /* FIX Сделать размер шрифта зависимым от количества символов*/
+  /*font-size: 24px;  Max: 36px Min: 24px */
   font-weight: 800;
   color: #111827;
   width: 100%;
