@@ -1,21 +1,255 @@
 import "./style.css";
 
 const arrDigits = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0, ","];
-// Switch container
-const switchContainer = document.querySelector(".switch");
 // Digits container
 const digitsContainer = document.querySelector(".digits");
+/* Render Digits */
+arrDigits.map((digit) => {
+  const btnElement = document.createElement("button");
+  btnElement.classList.add("btn");
+  btnElement.textContent = digit;
+  if (digit === ",") {
+    btnElement.value = ".";
+  } else {
+    btnElement.value = digit;
+  }
+  digitsContainer.append(btnElement);
+});
+// ---------------------------
 // D&D
 const components = document.querySelectorAll(".component");
 const zoneDrop = document.querySelector("[data-comp='drop']");
 const zoneDrag = document.querySelector("[data-comp='drag']");
 const textArea = document.querySelector(".text-wrapper");
-
 const droppedComponents = zoneDrop.children;
+// Switch
+const selectorRunTime = document.querySelector('.selector[name="runtime"]');
+const iconEye = selectorRunTime.children[0];
+const selectorConstructor = document.querySelector(
+  '.selector[name="constructor"]'
+);
+const iconSelector = selectorConstructor.children[0];
+
 let dragComp = null;
-// test
 let bottomComp = null;
 
+/*Events DnD*/
+function addDnDEvents(elements) {
+  elements.forEach((c) => {
+    c.setAttribute("draggable", "true");
+    c.addEventListener("dragstart", dragStart);
+    c.addEventListener("dragend", dragEnd);
+  });
+
+  addAreaDropEvents("dragover", dragOver);
+  addAreaDropEvents("dragenter", dragEnter);
+  addAreaDropEvents("dragleave", dragLeave);
+  addAreaDropEvents("drop", dragDrop);
+}
+
+function deleteAllAreaDropEvents(elements) {
+  elements.forEach((c) => {
+    c.setAttribute("draggable", "false");
+    c.removeEventListener("dragstart", dragStart);
+    c.removeEventListener("dragend", dragEnd);
+    c.removeEventListener("dblclick", doubleClick);
+  });
+
+  removeAreaDropEvents("dragover", dragOver);
+  removeAreaDropEvents("dragenter", dragEnter);
+  removeAreaDropEvents("dragleave", dragLeave);
+  removeAreaDropEvents("drop", dragDrop);
+}
+
+function addAreaDropEvents(event, fn) {
+  zoneDrop.addEventListener(event, fn);
+}
+
+function removeAreaDropEvents(event, fn) {
+  zoneDrop.removeEventListener(event, fn);
+}
+/* Block switch ------------------------------------------------*/
+{
+  let runComponents;
+  let btns;
+  let display;
+
+  let flag = false;
+  let currentNum = 0;
+  let previousOperator = "";
+
+  /* Functions Calc ---------------------------------*/
+
+  // * Press Number
+  function pressNum(Num) {
+    if (flag) {
+      display.value = Num;
+      flag = false;
+    } else {
+      if (display.value === "0" || display.value === "Не определено")
+        display.value = Num;
+      else display.value += Num;
+    }
+    console.log("current: ", currentNum);
+    console.log("flag: ", flag);
+  }
+
+  //  * Calc
+  function calc(current, readDisplay, operator) {
+    let a = current;
+    let b = parseFloat(readDisplay);
+    console.log(a, operator, b);
+    switch (operator) {
+      case "+":
+        console.log(a, "IN +");
+        a += b;
+        console.log(a, "OUT +");
+        break;
+      case "-":
+        a -= b;
+        console.log(a, "-");
+        break;
+      case "/":
+        if (readDisplay === "0") return (a = "Не определено");
+        a /= b;
+        console.log(a, "/");
+        break;
+      case "X":
+        a *= b;
+        console.log(a, "X");
+        break;
+      default:
+        console.log(a, "defaultIN");
+        a = b;
+        console.log(a, "defaultOUT");
+        break;
+    }
+    return a;
+  }
+
+  //  * Operation
+  function operation(symbol) {
+    let readDisplay = display.value;
+    if (flag && previousOperator !== "=") {
+      display.value = currentNum;
+    } else {
+      flag = true;
+      currentNum = calc(currentNum, readDisplay, previousOperator);
+      if (
+        currentNum.toString().includes(".") &&
+        currentNum.toString().length > 5
+      )
+        currentNum = +currentNum.toFixed(3);
+
+      previousOperator = symbol;
+
+      display.value = currentNum;
+    }
+    console.log("input: ", readDisplay);
+    console.log("current: ", currentNum);
+    console.log("flag: ", flag);
+  }
+
+  // * Float
+  function float() {
+    let floatDisplay = display.value;
+    if (flag) {
+      floatDisplay = "0.";
+      flag = false;
+    } else {
+      if (!floatDisplay.includes(".")) floatDisplay += ".";
+    }
+    display.value = floatDisplay;
+  }
+
+  // * Reset
+  function reset() {
+    display.value = "0";
+    currentNum = 0;
+    previousOperator = "";
+    flag = false;
+  }
+
+  // * Handler Calc
+  function handlerCalc(e) {
+    // e.stopImmediatePropagation()
+    const parentButton = e.target.parentElement.className;
+    // Digits
+    if (parentButton.includes("digits")) {
+      const value = e.target.value;
+
+      if (value === ".") float();
+      else pressNum(value);
+      console.log("Display: ", display.value);
+    }
+    //  Operators
+    if (
+      parentButton.includes("operators") ||
+      parentButton.includes("equally")
+    ) {
+      let operator = e.target.innerText;
+      operation(operator);
+
+      console.log("Currents: ", currentNum);
+      console.log("PreviousOperator: ", previousOperator);
+    }
+  }
+
+  /*---------------------------------------------------------Calc*/
+
+  // Event Runtime
+  selectorRunTime.addEventListener("click", () => {
+    runComponents = Array.from(droppedComponents);
+    btns = zoneDrop.querySelectorAll(".btn");
+    display = zoneDrop.querySelector("input");
+
+    if (zoneDrop.children.length < 4) {
+      return alert("Calculator is not built. Please drop all components");
+    }
+    selectorConstructor.classList.remove("selector--active");
+    iconSelector.classList.remove("icon__selector--active");
+    selectorRunTime.classList.add("selector--active");
+    iconEye.classList.add("icon__eye--active");
+    zoneDrag.classList.add("hidden");
+
+    btns.forEach((btn) => btn.classList.add("btn--runtime"));
+    runComponents.forEach((c) => {
+      c.classList.remove("cursor--move");
+      if (c.dataset.item === "display") c.style.cursor = "auto";
+    });
+    deleteAllAreaDropEvents(runComponents);
+    zoneDrop.addEventListener("click", handlerCalc);
+  });
+
+  // Event Constructor
+
+  selectorConstructor.addEventListener("click", () => {
+    selectorRunTime.classList.remove("selector--active");
+    iconEye.classList.remove("icon__eye--active");
+    selectorConstructor.classList.add("selector--active");
+    iconSelector.classList.add("icon__selector--active");
+    zoneDrop.removeEventListener("click", handlerCalc);
+    zoneDrag.classList.remove("hidden");
+
+    btns.forEach((btn) => btn.classList.remove("btn--runtime"));
+    addDnDEvents(runComponents);
+
+    runComponents.forEach((c) => {
+      c.addEventListener("dblclick", doubleClick);
+      c.classList.add("cursor--move");
+      if (c.dataset.item === "display") {
+        c.style.cursor = "not-allowed";
+        c.draggable = false;
+      }
+    });
+    reset();
+  });
+}
+/*-------------------------------------------------------------*/
+
+/* Functions DnD ==============================================*/
+
+// Drop Insert Comp
 function insertAboveComp(mouseY) {
   const els = Array.from(droppedComponents);
   let closestComp = null;
@@ -32,230 +266,7 @@ function insertAboveComp(mouseY) {
   return closestComp;
 }
 
-/* Calc Function */
-function calc(a, b, operator) {
-  let res;
-  switch (operator) {
-    case "+":
-      res = a + b;
-      break;
-    case "-":
-      res = a - b;
-      break;
-    case "*":
-      res = a * b;
-      break;
-    case "/":
-      if (!b) {
-        return (res = "Не определено");
-      }
-      res = a / b;
-
-      break;
-  }
-  return res;
-}
-
-/*Events*/
-function addAreaDropEvents(elements) {
-  elements.forEach((c) => {
-    c.setAttribute("draggable", "true");
-    c.addEventListener("dragstart", dragStart);
-    c.addEventListener("dragend", dragEnd);
-  });
-
-  areaDropEvents("dragover", dragOver);
-  areaDropEvents("dragenter", dragEnter);
-  areaDropEvents("dragleave", dragLeave);
-  areaDropEvents("drop", dragDrop);
-}
-
-function deleteAreaDropEvents(elements) {
-  elements.forEach((c) => {
-    c.setAttribute("draggable", "false");
-    c.removeEventListener("dragstart", dragStart);
-    c.removeEventListener("dragend", dragEnd);
-    c.removeEventListener("dblclick", doubleClick);
-  });
-
-  removeAreaDropEvents("dragover", dragOver);
-  removeAreaDropEvents("dragenter", dragEnter);
-  removeAreaDropEvents("dragleave", dragLeave);
-  removeAreaDropEvents("drop", dragDrop);
-}
-
-function areaDropEvents(event, fn) {
-  zoneDrop.addEventListener(event, fn);
-}
-
-function removeAreaDropEvents(event, fn) {
-  zoneDrop.removeEventListener(event, fn);
-}
-
-/* Render Digits */
-arrDigits.map((digit) => {
-  const btnElement = document.createElement("button");
-  btnElement.classList.add("btn");
-  btnElement.textContent = digit;
-  if (digit === ",") {
-    btnElement.value = ".";
-  } else {
-    btnElement.value = digit;
-  }
-  digitsContainer.append(btnElement);
-});
-
-/* Event Switch */
-switchContainer.addEventListener("click", ({ target }) => {
-  const selectors = document.querySelectorAll(".selector");
-  const iconEye = document.querySelector('.icon[name="eye"]');
-  const iconSelector = document.querySelector('.icon[name="selector"]');
-  const selectorActive = target.matches(".selector");
-  const iconActive = target.matches(".icon");
-  const btns = zoneDrop.querySelectorAll(".btn");
-  const runComponents = Array.from(zoneDrop.children);
-
-  const input = zoneDrop.querySelector("input");
-
-  if (iconActive || selectorActive) {
-    const selectorName = target.parentElement.name || target.name;
-
-    if (selectorName === "runtime" && zoneDrop.children.length < 4)
-      return alert("Calculator is not built. Please drop all components");
-
-    selectors.forEach((div) => {
-      div.classList.remove("selector--active");
-      if (selectorActive) target.classList.add("selector--active");
-      if (iconActive) target.parentElement.classList.add("selector--active");
-    });
-
-    let a = "";
-    let b = "";
-    let operator;
-    let equally = false;
-
-    switch (selectorName) {
-      case "runtime":
-        iconEye.classList.remove("icon__eye");
-        iconEye.classList.add("icon__eye--active");
-        iconSelector.className = "icon icon__selector";
-        zoneDrag.classList.add("hidden");
-
-        btns.forEach((btn) => btn.classList.add("btn--runtime"));
-        runComponents.forEach((c) => {
-          c.classList.remove("cursor--move");
-          if (c.dataset.item === "display") c.style.cursor = "auto";
-        });
-        deleteAreaDropEvents(runComponents);
-
-        // Calculator
-        zoneDrop.addEventListener("click", (e) => {
-          const parentButton = e.target.parentElement.className;
-
-          // Digits
-          if (parentButton.includes("digits")) {
-            const value = e.target.value;
-            // Validation ----------------
-            if (
-              (value === "0" && !a && !b) ||
-              (value === "." && input.value.includes("."))
-            )
-              return;
-            if (value === "." && input.value === "0") {
-              a = "0";
-              input.value = a;
-            }
-            if (!b && !operator) {
-              a += value;
-              input.value = a;
-            } else if (value === "0" && equally) {
-              console.log("Нуль");
-              b = "";
-              input.value = "0";
-            } else if (a && b && equally) {
-              b = value;
-              equally = false;
-              input.value = b;
-            } else {
-              b += value;
-              input.value = b;
-            }
-          }
-          //  Operators
-          if (parentButton.includes("operators")) {
-            operator = e.target.innerText;
-          }
-          //  Equally
-          if (parentButton.includes("equally")) {
-            console.log(e.target.innerText);
-            /*if (!sum[1] && operator) {
-							const res = calc(sum[0], sum[0], operator);
-							input.value = res;
-							equally = true;
-						}
-						if (sum.length === 2) {
-							console.log(sum);
-
-							const res = calc(sum[0], sum[1], operator);
-							input.value = res;
-							digits.length = 0;
-							sum[0] = res;
-							equally = true;
-						}*/
-
-            // Одинаковое число без нажатия по второму числу
-            if (!b && operator) {
-              b = a;
-              a = calc(parseFloat(a), parseFloat(b), operator);
-              // input.value = res;
-              // digits.length = 0;
-            }
-
-            if (b && operator) {
-              a = calc(parseFloat(a), parseFloat(b), operator);
-
-              // digits.length = 0;
-              // a = res;
-            }
-            equally = true;
-            input.value = a;
-          }
-
-          console.log("Number A: ", a, "Number B: ", b);
-          console.log("operator: ", operator);
-          console.log("=", equally);
-        });
-
-        break;
-      case "constructor":
-        iconSelector.classList.remove("icon__selector");
-        iconSelector.classList.add("icon__selector--active");
-        iconEye.className = "icon icon__eye";
-        zoneDrag.classList.remove("hidden");
-        /*Reset Calc*/
-        a = "";
-        b = "";
-        operator = "";
-        equally = false;
-        input.value = "0";
-        /*-----------------*/
-        btns.forEach((btn) => btn.classList.remove("btn--runtime"));
-        addAreaDropEvents(runComponents);
-
-        runComponents.forEach((c) => {
-          c.addEventListener("dblclick", doubleClick);
-          c.classList.add("cursor--move");
-          if (c.dataset.item === "display") {
-            c.style.cursor = "not-allowed";
-            c.draggable = false;
-          }
-        });
-        break;
-    }
-  }
-});
-
-/* Double Click*/
+//* Double Click*/
 function doubleClick({ target }) {
   const arr = Array.from(components);
   const shadowElement = arr.filter(
@@ -292,13 +303,13 @@ function dragStart({ target }) {
   }
 }
 
-/* Drag entered*/
+//* Drag entered*/
 function dragEnter(e) {
   e.preventDefault();
 }
 
-//FIX highlight
-/* Drag over*/
+// FIX highlight
+//* Drag over*/
 function dragOver(e) {
   e.preventDefault();
   e.stopPropagation();
@@ -329,7 +340,7 @@ function dragOver(e) {
   }
 }
 
-/* Drag left*/
+//* Drag left*/
 function dragLeave() {
   console.log("drag left");
   textArea.style.background = "#FFF";
@@ -342,7 +353,7 @@ function dragLeave() {
   }
 }
 
-/* Drag dropped*/
+//* Drag dropped*/
 function dragDrop(e) {
   console.log("drag dropped");
   if (droppedComponents.length) {
@@ -362,7 +373,7 @@ function dragDrop(e) {
   /*-----*/
 }
 
-/* Drag End*/
+//* Drag End*/
 function dragEnd(e) {
   console.log("drag end");
   textArea.style.background = "#FFF";
@@ -380,5 +391,6 @@ function dragEnd(e) {
 
   textArea.classList.add("hidden");
 }
+/*===============================================================*/
 
-if (!droppedComponents.length) addAreaDropEvents(components);
+if (!droppedComponents.length) addDnDEvents(components);
