@@ -1,4 +1,5 @@
 /*@import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 * {
   box-sizing: border-box;
   margin: 0;
@@ -15,7 +16,7 @@ input {
 body {
   overflow-y: scroll;
 }
-#app {
+#root {
   display: flex;
   gap: 56px;
   justify-content: center;
@@ -183,16 +184,16 @@ p {
 }
 
 .icon__eye {
-  background-image: url("/eye.svg");
+  background-image: url("../public/eye.svg");
 }
 .icon__eye--active {
-  background-image: url("/eye_act.svg");
+  background-image: url("../public/eye_act.svg");
 }
 .icon__selector {
-  background-image: url("/selector.svg");
+  background-image: url("../public/selector.svg");
 }
 .icon__selector--active {
-  background-image: url("/selector_act.svg");
+  background-image: url("../public/selector_act.svg");
 }
 
 .selector .icon {
@@ -209,13 +210,13 @@ p {
   display: none;
 }
 .highlight-line-before::before {
-  content: url("/highlight-line.svg");
+  content: url("../public/highlight-line.svg");
   position: absolute;
   top: -14px;
   left: -6px;
 }
 .highlight-line-after::after {
-  content: url("/highlight-line.svg");
+  content: url("../public/highlight-line.svg");
   position: absolute;
   bottom: -9px;
   left: -6px;

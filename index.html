@@ -1,76 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
-            rel="stylesheet"
-    />
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Constructor-Calc</title>
-</head>
-<body>
-<div id="app">
-    <!-- Components -->
-    <div class="component-wrapper" data-comp="drag">
-        <!-- Display -->
-        <div class="component shadow display cursor--move" data-item="display">
-            <input disabled type="text" value="0"/>
-        </div>
-        <!-- Operators -->
-        <div
-                class="component shadow operators grid cursor--move"
-                data-item="operators"
-        >
-            <button class="btn">/</button>
-            <button class="btn">X</button>
-            <button class="btn">-</button>
-            <button class="btn">+</button>
-        </div>
-        <!-- Digits -->
-        <div
-                class="component shadow digits grid cursor--move"
-                data-item="digits"
-        ></div>
-        <!-- Equally -->
-        <div class="component shadow equally cursor--move" data-item="equally">
-            <button class="btn btn--equally">=</button>
-        </div>
-    </div>
-    <!-- Constructor -->
-    <div class="component-wrapper">
-        <!-- Switch -->
-        <div class="switch">
-            <button class="selector" name="runtime">
-                <div class="icon icon__eye" name="eye"></div>
-                Runtime
-            </button>
-            <button class="selector selector--active" name="constructor">
-                <div
-                        class="icon icon__selector icon__selector--active"
-                        name="selector"
-                ></div>
-                Constructor
-            </button>
-        </div>
-
-        <div class="drop-area" data-comp="drop">
-        </div>
-        <div class="text-wrapper">
-            <div class="text">
-                <img class="icon" src="/drop.svg" alt=""></img>
-                <h3>Перетащите сюда</h3>
-                <p>
-                    любой элемент<br/>
-                    из левой панели
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-<script type="module" src="/src/main.js"></script>
-</body>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
