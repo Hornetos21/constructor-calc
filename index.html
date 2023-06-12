@@ -1,124 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
+            rel="stylesheet"
     />
     <title>Constructor-Calc</title>
-  </head>
-  <body>
-    <div id="app">
-      <!-- Components -->
-      <div class="component-wrapper" data-comp="drag">
+</head>
+<body>
+<div id="app">
+    <!-- Components -->
+    <div class="component-wrapper" data-comp="drag">
         <!-- Display -->
         <div class="component shadow display cursor--move" data-item="display">
-          <input disabled type="text" value="0" />
+            <input disabled type="text" value="0"/>
         </div>
         <!-- Operators -->
         <div
-          class="component shadow operators grid cursor--move"
-          data-item="operators"
+                class="component shadow operators grid cursor--move"
+                data-item="operators"
         >
-          <button class="btn">/</button>
-          <button class="btn">X</button>
-          <button class="btn">-</button>
-          <button class="btn">+</button>
-        </div>
-        <!-- Digits -->
-        <div
-          class="component shadow digits grid cursor--move"
-          data-item="digits"
-        ></div>
-        <!-- Equally -->
-        <div class="component shadow equally cursor--move" data-item="equally">
-          <button class="btn btn--equally">=</button>
-        </div>
-      </div>
-      <!-- Constructor -->
-      <div class="component-wrapper">
-        <!-- Switch -->
-        <div class="switch">
-          <button class="selector" name="runtime">
-            <div class="icon icon__eye" name="eye"></div>
-            Runtime
-          </button>
-          <button class="selector selector--active" name="constructor">
-            <div
-              class="icon icon__selector icon__selector--active"
-              name="selector"
-            ></div>
-            Constructor
-          </button>
-        </div>
-        <!-- Drop area -->
-
-        <!--        Test ------------------------------>
-        <!-- <div class="drop-area" data-comp="drop">
-          <div
-            class="component display cursor--move"
-            data-item="display"
-            draggable="false"
-            style="cursor: not-allowed"
-          >
-            <input disabled="" type="text" value="0" />
-          </div>
-          <div
-            class="component operators grid cursor--move"
-            data-item="operators"
-            draggable="true"
-          >
             <button class="btn">/</button>
             <button class="btn">X</button>
             <button class="btn">-</button>
             <button class="btn">+</button>
-          </div>
-          <div
-            class="component digits grid cursor--move"
-            data-item="digits"
-            draggable="true"
-          >
-            <button class="btn" value="7">7</button
-            ><button class="btn" value="8">8</button
-            ><button class="btn" value="9">9</button
-            ><button class="btn" value="4">4</button
-            ><button class="btn" value="5">5</button
-            ><button class="btn" value="6">6</button
-            ><button class="btn" value="1">1</button
-            ><button class="btn" value="2">2</button
-            ><button class="btn" value="3">3</button
-            ><button class="btn" value="0">0</button
-            ><button class="btn" value=".">,</button>
-          </div>
-          <div
-            class="component equally cursor--move"
-            data-item="equally"
-            draggable="true"
-          >
+        </div>
+        <!-- Digits -->
+        <div
+                class="component shadow digits grid cursor--move"
+                data-item="digits"
+        ></div>
+        <!-- Equally -->
+        <div class="component shadow equally cursor--move" data-item="equally">
             <button class="btn btn--equally">=</button>
-          </div>
-        </div> -->
-        <!--   ---------------------------     -->
-
-               <div class="drop-area" data-comp="drop">
-               </div>
-               <div class="text-wrapper">
-                 <div class="text">
-                   <img class="icon" src="/drop.svg"></img>
-                   <h3>Перетащите сюда</h3>
-                   <p>
-                     любой элемент<br />
-                     из левой панели
-                   </p>
-                 </div>
-             </div>
-      </div>
+        </div>
     </div>
-    <script type="module" src="/main.js"></script>
-  </body>
+    <!-- Constructor -->
+    <div class="component-wrapper">
+        <!-- Switch -->
+        <div class="switch">
+            <button class="selector" name="runtime">
+                <div class="icon icon__eye" name="eye"></div>
+                Runtime
+            </button>
+            <button class="selector selector--active" name="constructor">
+                <div
+                        class="icon icon__selector icon__selector--active"
+                        name="selector"
+                ></div>
+                Constructor
+            </button>
+        </div>
+
+        <div class="drop-area" data-comp="drop">
+        </div>
+        <div class="text-wrapper">
+            <div class="text">
+                <img class="icon" src="/drop.svg" alt=""></img>
+                <h3>Перетащите сюда</h3>
+                <p>
+                    любой элемент<br/>
+                    из левой панели
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
 </html>
