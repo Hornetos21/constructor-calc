@@ -1,7 +1,16 @@
 import Components from './components/Components'
 import Constructor from './components/Constructor'
 import { useState } from 'react'
-import { Data, DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core'
+import {
+  Data,
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+  MouseSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
 import ComponentOverlay from './components/ComponentOverlay'
 import Display from './components/Display'
 import Operators from './components/Operators'
@@ -50,6 +59,13 @@ const components: IComponent[] = [
 ]
 
 function App() {
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: {
+      delay: 100,
+    },
+  })
+  const sensors = useSensors(mouseSensor)
+
   const [copied, setCopy] = useState<IComponent[] | []>([])
   const [activeComp, setActiveComp] = useState<Data<IComponent> | null>(null)
   const [dragComp, setDragComp] = useState(components)
@@ -87,7 +103,11 @@ function App() {
   // console.log('Copy ', copied)
 
   return (
-    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <Components
         components={components}
         handleDoubleClick={handleDoubleClick}
