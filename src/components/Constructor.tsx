@@ -1,24 +1,29 @@
 import Switcher from './Switcher'
 import DropArea from './DropArea'
+import DropText from './DropText'
+import Component from './Component'
+import { IComponent } from '../types'
 
-const Constructor = () => {
+interface Props {
+  items: IComponent[]
+  classText: string
+}
+
+const Constructor = ({ items, classText }: Props) => {
   return (
-      <div className="component-wrapper">
-        <Switcher/>
-        <DropArea/>
-        <div className='text-wrapper'>
-          <div className="text">
-            <img className="icon" src="/drop.svg" alt=""></img>
-            <h3>Перетащите сюда</h3>
-            <p>
-              любой элемент<br />
-              из левой панели
-            </p>
-          </div>
-        </div>
-
-      </div>
- )
+    <div className="component-wrapper">
+      <Switcher />
+      <DropText clazz={classText} />
+      <DropArea>
+        {items &&
+          items.map((comp) => (
+            <Component key={comp.id} clazz={comp.style} data={comp}>
+              {comp.component}
+            </Component>
+          ))}
+      </DropArea>
+    </div>
+  )
 }
 
 export default Constructor

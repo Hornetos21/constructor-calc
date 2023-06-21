@@ -4,7 +4,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   user-select: none;
 }
 button,
@@ -43,10 +43,10 @@ body {
   height: 516px;
   margin-top: 38px;
 }
-.component-wrapper[data-comp="drag"] {
+.component-wrapper[data-comp='drag'] {
   padding-top: 68px;
 }
-.component-wrapper[data-comp="drop"] {
+.component-wrapper[data-comp='drop'] {
   margin-top: 0;
 }
 
@@ -64,7 +64,9 @@ body {
 .drop-area {
   position: relative;
   height: 448px;
-  z-index: 1;
+}
+.highlight {
+  background-color: #f0f9ff;
 }
 .text-wrapper {
   position: absolute;
@@ -76,6 +78,7 @@ body {
   height: 448px;
   border: 2px dashed #c4c4c4;
   border-radius: 6px;
+  z-index: 2;
 }
 .text {
   width: 127px;
@@ -184,16 +187,16 @@ p {
 }
 
 .icon__eye {
-  background-image: url("../public/eye.svg");
+  background-image: url('../public/eye.svg');
 }
 .icon__eye--active {
-  background-image: url("../public/eye_act.svg");
+  background-image: url('../public/eye_act.svg');
 }
 .icon__selector {
-  background-image: url("../public/selector.svg");
+  background-image: url('../public/selector.svg');
 }
 .icon__selector--active {
-  background-image: url("../public/selector_act.svg");
+  background-image: url('../public/selector_act.svg');
 }
 
 .selector .icon {
@@ -210,13 +213,13 @@ p {
   display: none;
 }
 .highlight-line-before::before {
-  content: url("../public/highlight-line.svg");
+  content: url('../public/highlight-line.svg');
   position: absolute;
   top: -14px;
   left: -6px;
 }
 .highlight-line-after::after {
-  content: url("../public/highlight-line.svg");
+  content: url('../public/highlight-line.svg');
   position: absolute;
   bottom: -9px;
   left: -6px;

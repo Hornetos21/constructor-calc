@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 
 interface Props {
-  clazz: string
+  clazz: string | undefined
   children: ReactNode
 }
 const ComponentOverlay = ({ clazz, children }: Props) => {
