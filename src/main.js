@@ -261,6 +261,4 @@ function dragEnd(e) {
   textArea.classList.add('hidden')
 }
 
-/*===============================================================*/
-
 if (!droppedComponents.length) addDnDEvents(components)
