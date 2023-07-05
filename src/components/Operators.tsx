@@ -1,15 +1,29 @@
-import Button from './Button'
-import ComponentShadow from './ComponentShadow'
+import Button from '../UI/Button'
+import Widget from './Widget'
+import { operators } from '../const'
 
-const operators = ['/', 'X', '-', '+']
+interface Props {
+  copy?: string
+  btnClass?: string
+  handleClick?: () => void
+  active?: boolean
+}
 
-const Operators = () => {
+const Operators = ({ copy, handleClick, active }: Props) => {
+  if (active === undefined) {
+    active = false
+  }
   return (
-    <ComponentShadow clazz="operators grid cursor--move" data="operators">
+    <Widget clazz="operators grid" copy={copy}>
       {operators.map((sign, index) => (
-        <Button key={index} sign={sign} />
+        <Button
+          key={index}
+          sign={sign}
+          handleClick={handleClick}
+          active={active}
+        />
       ))}
-    </ComponentShadow>
+    </Widget>
   )
 }
 

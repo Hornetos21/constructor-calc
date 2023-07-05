@@ -1,9 +1,9 @@
-import { ReactComponent as IconEye } from '../../public/eye.svg'
-import { ReactComponent as Selector } from '../../public/selector.svg'
-import React, { useState } from 'react'
+import { ReactComponent as IconEye } from '../assets/eye.svg'
+import { ReactComponent as Selector } from '../assets/selector.svg'
+import React from 'react'
 
-const Switcher = () => {
-  const [active, setActive] = useState({ runtime: false, constructor: true })
+const Switcher = ({ active, setActive }) => {
+  // const [active, setActive] = useState({ runtime: false, constructor: true })
   const activeClass = (btn: boolean) =>
     btn ? 'selector selector--active' : 'selector'
   const activeIcon = (btn: boolean) => (btn ? '#5D5FEF' : '')

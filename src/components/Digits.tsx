@@ -1,14 +1,27 @@
-import Button from './Button'
-import ComponentShadow from './ComponentShadow'
+import Button from '../UI/Button'
+import Widget from './Widget'
+import { digits } from '../const'
 
-const digits = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', ',']
-const Digits = () => {
+interface Props {
+  copy?: string
+  btnClass?: string
+  handleClick?: () => void
+  active?: boolean
+}
+
+const Digits = ({ copy, handleClick, active }: Props) => {
   return (
-    <ComponentShadow clazz="digits grid cursor--move" data="digits">
+    <Widget clazz="digits grid" copy={copy}>
       {digits.map((digit, index) => (
-        <Button key={index} sign={digit} />
+        <Button
+          key={index}
+          sign={digit}
+          // btnRef={btnRef}
+          handleClick={handleClick}
+          active={active}
+        />
       ))}
-    </ComponentShadow>
+    </Widget>
   )
 }
 

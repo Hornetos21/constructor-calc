@@ -1,11 +1,22 @@
-import ComponentShadow from './ComponentShadow'
-import Button from './Button'
+import Button from '../UI/Button'
+import Widget from './Widget'
 
-const Equally = () => {
+interface Props {
+  copy?: string
+  btnClass?: string
+  handleClick?: () => void
+  active?: boolean
+}
+const Equally = ({ copy, handleClick, active }: Props) => {
   return (
-    <ComponentShadow clazz="equally cursor--move">
-      <Button sign="=" clazz="btn--equally" />
-    </ComponentShadow>
+    <Widget clazz="equally" copy={copy}>
+      <Button
+        sign="="
+        clazz={`btn--equally`}
+        handleClick={handleClick}
+        active={active}
+      />
+    </Widget>
   )
 }
 

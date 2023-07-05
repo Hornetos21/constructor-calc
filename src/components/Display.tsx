@@ -1,10 +1,13 @@
-import ComponentShadow from './ComponentShadow'
+import Widget from './Widget'
 
-const Display = () => {
+interface Props {
+  copy?: string
+}
+const Display = ({ copy }: Props) => {
   return (
-    <ComponentShadow clazz="display cursor--move" data="display">
+    <Widget clazz="display" copy={copy}>
       <input disabled type="text" value="0" />
-    </ComponentShadow>
+    </Widget>
   )
 }
 

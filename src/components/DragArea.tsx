@@ -3,9 +3,9 @@ import Display from './Display'
 import Operators from './Operators'
 import Equally from './Equally'
 
-const Components = () => {
+const DragArea = () => {
   return (
-    <div className="component-wrapper" data-comp="drag">
+    <div>
       <Display />
       <Operators />
       <Digits />
@@ -14,4 +14,4 @@ const Components = () => {
   )
 }
 
-export default Components
+export default DragArea
