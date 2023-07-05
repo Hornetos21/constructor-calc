@@ -1,16 +1,35 @@
+import { ReactComponent as IconEye } from '../../public/eye.svg'
+import { ReactComponent as Selector } from '../../public/selector.svg'
+import React, { useState } from 'react'
 
 const Switcher = () => {
+  const [active, setActive] = useState({ runtime: false, constructor: true })
+  const activeClass = (btn: boolean) =>
+    btn ? 'selector selector--active' : 'selector'
+  const activeIcon = (btn: boolean) => (btn ? '#5D5FEF' : '')
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const activeBtn = e.currentTarget.matches('.selector--active')
+    if (activeBtn) return
+    setActive({ runtime: !active.runtime, constructor: !active.constructor })
+  }
+
   return (
     <div className="switch">
-      <button className="selector" name="runtime">
-        <div className="icon icon__eye" name="eye"></div>
+      <button
+        className={activeClass(active.runtime)}
+        onClick={handleClick}
+        name="runtime"
+      >
+        <IconEye className="icon" color={activeIcon(active.runtime)} />
         Runtime
       </button>
-      <button className="selector selector--active" name="constructor">
-        <div
-          className="icon icon__selector icon__selector--active"
-          name="selector"
-        ></div>
+      <button
+        className={activeClass(active.constructor)}
+        onClick={handleClick}
+        name="constructor"
+      >
+        <Selector className="icon" color={activeIcon(active.constructor)} />
         Constructor
       </button>
     </div>
